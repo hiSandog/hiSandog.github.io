@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    Hexo
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">MICCALL</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <li class="active">
+	            <a href="#s1">分类</a>
+	                    <ul class="submenu">
+	                        <li>
+	                        
+	                    </ul>
+	        </li>
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="个人">
+		                个人
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tag/" title="标签">
+		                标签
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/miccall" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a title="500px" href="http://500px.com" target="_blank" rel="noopener">
+                            <i class="icon fa fa-500px"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/aedfh1.jpeg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Dolphin 自动化发布任务流</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>DolphinScheduler 是一个分布式、高扩展性的可视化开源工作流任务调度框架，适用于企业级应用场景，提供了可视化任务操作、工作流调度和整个数据处理流程的可视化解决方案。（摘自官网）</p>
+<p>在使用 DolphinScheduler 之前，我司用过 Airflow 调度系统，后来因为一系列原因弃用了 Airflow 转用了 DolphinScheduler，相对于 Airflow ，DolphinScheduler 更加简洁也更加简单，在可视化操作方面做的更加友好。之前使用 Airflow 的操作习惯是在代码里写完工作流定义，然后依靠脚本自动化发布，这一点上 DolphinScheduler 很明显做的确实没有 Airflow 那么好，即使到了现在的 3.0.1 版本，其 python api 和 当时的 Airflow 相比，功能上还是差了很多。</p>
+<p>在去年刚开始使用 DolphinScheduler 的时候，那时候没有接 DolphinScheduler 的 python api 只能在项目里面零散的记录脚本，发布的时候在页面上手动复制粘贴，这种传统的发布方式非常容易出错，所以在一季度我负责整了一下 DolphinScheduler 的自动化发布，还被 DolphinScheduler python api 的作者夸了是最佳实践，这里稍微记录一下。</p>
+<h2 id="DolphinScheduler-python-api-简介"><a href="#DolphinScheduler-python-api-简介" class="headerlink" title="DolphinScheduler python api 简介"></a>DolphinScheduler python api 简介</h2><p>DolphinScheduler python api 本身其实就是利用 py4j 通过 python 脚本调用 Java 项目的函数，在老版本的 DolphinScheduler ，py4j 的gateway server 是独立的，后来 DolphinScheduler Api 集成了这部分的功能。其本质就是通过 py4j ，使用 python 脚本调用 DolphinScheduler Api 项目达到对 DolphinScheduler 元数据的增删查改的目的。</p>
+<h2 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h2><p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/Dolphin-api1.jpeg" alt="Dolphin-api1"></p>
+<ul>
+<li>在部署 DolphinScheduler Api 服务的服务器上安装 PyDolphinScheduler，并且将编写 DolphinScheduler 任务流的 git 项目clone到该服务器上。</li>
+<li>在每次写完 DolphinScheduler 任务流代码，提交到 gitlab 之后，通过 gitlab ci 使用 Fabric 远程操控部署 DolphinScheduler Api 服务的服务器更新到最新代码，并且执行发布任务的脚本。</li>
+<li>发布任务的脚本会调用本地的 DolphinScheduler Api 服务更改 DolphinScheduler 的元数据达到更新 DolphinScheduler 任务流的操作。</li>
+</ul>
+<p><em><strong>之所以使用这种方案是因为DolphinScheduler python api最早只支持调用本地 DolphinScheduler Api 服务，新版的 DolphinScheduler python api 已经支持通过改变环境变量调用远程的  DolphinScheduler Api 服务，所以其实方案可以优化成直接在gitlab ci 调用  DolphinScheduler Api 服务</strong></em></p>
+<h2 id="PyDolphinScheduler-脚本编写"><a href="#PyDolphinScheduler-脚本编写" class="headerlink" title="PyDolphinScheduler 脚本编写"></a>PyDolphinScheduler 脚本编写</h2><p>现阶段我们只用到了 hive sql 、 datax 、python 、spark 这些类型的任务，这里就用这四个类型的任务举例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from pydolphinscheduler.core import ProcessDefinition</span><br><span class="line">from pydolphinscheduler.core.engine import ProgramType</span><br><span class="line">from pydolphinscheduler.tasks import DataX, Sql, Python, Spark</span><br><span class="line"></span><br><span class="line">from pydolphinscheduler.tasks.spark import DeployMode</span><br><span class="line">from pydolphinscheduler.tasks.sql import SqlType</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set_dynamic_script_array = [</span><br><span class="line">    &quot;set hive.exec.dynamic.partition=true&quot;,</span><br><span class="line">    &quot;set hive.exec.dynamic.partition.mode=nonstrict&quot;,</span><br><span class="line">    &quot;set hive.exec.max.dynamic.partitions=100000&quot;,</span><br><span class="line">    &quot;set hive.exec.max.dynamic.partitions.pernode=100000&quot;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">example_hql = &quot;&quot;&quot;</span><br><span class="line">insert overwrite table dwm.xxx partition (calendar)</span><br><span class="line">select </span><br><span class="line">       ...,</span><br><span class="line">       current_date()</span><br><span class="line">from ods.xx1 info</span><br><span class="line">    inner join ods.yy1 shop</span><br><span class="line">    on info.shop_id = shop.shop_id</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">with ProcessDefinition(</span><br><span class="line">    user=&quot;admin&quot;,</span><br><span class="line">    project=&quot;ExampleProject&quot;,</span><br><span class="line">    name=&quot;ExampleTask&quot;,</span><br><span class="line">    schedule=&quot;0 30 7 * * ? *&quot;,</span><br><span class="line">    start_time=&quot;2021-01-01&quot;,</span><br><span class="line">    end_time=&quot;2030-01-01&quot;,</span><br><span class="line">    tenant=&quot;dolphin_ci&quot;,</span><br><span class="line">) as pd:</span><br><span class="line">    example_sql = Sql(</span><br><span class="line">        name=&quot;example_sql&quot;,</span><br><span class="line">        datasource_name=&quot;hive_database&quot;,</span><br><span class="line">        pre_statements=set_dynamic_script_array,</span><br><span class="line">        sql_type=SqlType.NOT_SELECT,</span><br><span class="line">        sql=example_hql,</span><br><span class="line">    )</span><br><span class="line">    example_datax = DataX(</span><br><span class="line">        name=&quot;example_datax&quot;,</span><br><span class="line">        datasource_name=&quot;read_database&quot;,</span><br><span class="line">        datatarget_name=&quot;write_database&quot;,</span><br><span class="line">        pre_statements=[</span><br><span class="line">            &quot;delete from xxx where calendar = date_format(now(), &#x27;%Y-%m-01&#x27;);&quot;</span><br><span class="line">        ],</span><br><span class="line">        sql=&quot;select a, b, c from yyy&quot;,</span><br><span class="line">        target_table=&quot;xxx&quot;,</span><br><span class="line">        job_speed_byte=0,</span><br><span class="line">        job_speed_record=0,</span><br><span class="line">    )</span><br><span class="line">    # 这里可以在别的文件夹定义好python文件内容，通过文件读取的方式获取文件内容</span><br><span class="line">    with open(&quot;/code/dolphin/workflow/dags/pyscripts/xxx.py&quot;, &quot;r&quot;) as report_file:</span><br><span class="line">        xxx_py_code = report_file.read()</span><br><span class="line">    example_python = Python(</span><br><span class="line">        name=&quot;example_python&quot;,</span><br><span class="line">        resource_list=[&quot;/abc/zzz.py&quot;, &quot;abc/yyy.py&quot;],</span><br><span class="line">        definition=xxx_py_code,</span><br><span class="line">    )</span><br><span class="line">    example_spark = Spark(</span><br><span class="line">        name=&quot;example_spark&quot;,</span><br><span class="line">        program_type=ProgramType.PYTHON,</span><br><span class="line">        deploy_mode=DeployMode.CLUSTER,</span><br><span class="line">        main_class=&quot;&quot;,</span><br><span class="line">        main_package=&quot;/spark/python/example_spark.py&quot;,</span><br><span class="line">    )</span><br><span class="line">    (example_sql &gt;&gt; example_datax &gt;&gt; example_python &gt;&gt; example_spark)</span><br><span class="line">    pd.submit()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Gitlab-ci-及-Fabric-文件编写"><a href="#Gitlab-ci-及-Fabric-文件编写" class="headerlink" title="Gitlab ci 及 Fabric 文件编写"></a>Gitlab ci 及 Fabric 文件编写</h2><p>fabfile.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from fabric.api import *</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">ENV_PROD = &quot;prod&quot;</span><br><span class="line">ENV_DEV = &quot;alpha&quot;</span><br><span class="line">deploy_server = &quot;deploy_server&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def init_env(branch):</span><br><span class="line">    env.branch = branch</span><br><span class="line">    # 这里定义的是 搭建 DolphinScheduler api 项目的地址</span><br><span class="line">    env.roledefs = &#123;deploy_server: [&quot;xxx@xxx.xxx.xxx.xxx&quot;]&#125;</span><br><span class="line">    if branch == &quot;master&quot;:</span><br><span class="line">        env.deploy_env = ENV_PROD</span><br><span class="line">    else:</span><br><span class="line">        env.deploy_env = ENV_DEV</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def read_json_file(json_file):</span><br><span class="line">    with open(json_file) as load_f:</span><br><span class="line">        load_dict = json.load(load_f)</span><br><span class="line">        return load_dict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@task</span><br><span class="line">@parallel</span><br><span class="line">@roles(deploy_server)</span><br><span class="line">def pull_new_code():</span><br><span class="line">	# 到服务器上获取最新的代码</span><br><span class="line">    run(</span><br><span class="line">        &quot;cd /opt/py-code/dolphin &amp;&amp; git fetch &amp;&amp; git reset --hard origin/&#123;&#125;&quot;.format(</span><br><span class="line">            env.branch</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@task</span><br><span class="line">@parallel</span><br><span class="line">@roles(deploy_server)</span><br><span class="line">def deploy_dags(dag_files):</span><br><span class="line">    for dag_file in dag_files:</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">这里我是打了一个 docker 包去运行 pyDolphinScheduler</span><br><span class="line">deploy.sh 内容如下</span><br><span class="line"></span><br><span class="line">#! /usr/bin/bash</span><br><span class="line"></span><br><span class="line">if [ $1 = &quot;prod&quot; ]</span><br><span class="line">then</span><br><span class="line">    export PYDS_JAVA_GATEWAY_ADDRESS=prod.hostname</span><br><span class="line">else</span><br><span class="line">    export PYDS_JAVA_GATEWAY_ADDRESS=alpha.hostname</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">python /code/dolphin/workflow/dags/biz/$2 $1</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">        run(</span><br><span class="line">            &quot;docker exec python-gate_dolphinscheduler-deploy_1 sh /deploy_script/deploy.sh &#123;&#125; &#123;&#125;&quot;.format(</span><br><span class="line">                env.deploy_env, dag_file</span><br><span class="line">            )</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@task</span><br><span class="line">def deploy(branch, json_file=None):</span><br><span class="line">    init_env(branch)</span><br><span class="line">    execute(pull_new_code)</span><br><span class="line">    if not json_file:</span><br><span class="line">        return</span><br><span class="line">    json_obj = read_json_file(&quot;deploydir/&#123;&#125;&quot;.format(json_file))</span><br><span class="line">    print(json_obj)</span><br><span class="line">    dag_files = json_obj.get(&quot;dag_files&quot;)</span><br><span class="line">    if dag_files is not None and len(dag_files) &gt; 0:</span><br><span class="line">        execute(deploy_dags, dag_files)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>.gitlab-ci.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">before_script:</span><br><span class="line">- echo &quot;$&#123;ENV&#125;&quot;</span><br><span class="line">- echo &quot;$&#123;CI_COMMIT_BRANCH&#125;&quot;</span><br><span class="line"></span><br><span class="line">stages:</span><br><span class="line">- deploy</span><br><span class="line"></span><br><span class="line"># 变量定义</span><br><span class="line">variables:</span><br><span class="line">  ENV: alpha</span><br><span class="line">  VER: $CI_COMMIT_REF_NAME</span><br><span class="line">  REGISTRY_URL: &quot;xxx.registry.com&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">.fab:</span><br><span class="line">  stage: deploy</span><br><span class="line">  image: $&#123;REGISTRY_URL&#125;/inf/common/fab-deploy:3.6.6</span><br><span class="line">  before_script:</span><br><span class="line">    - mkdir -p ~/.ssh</span><br><span class="line">    - echo &quot;$&#123;DOLPHIN_DEPLOY_KEY&#125;&quot; &gt; ~/.ssh/id_rsa</span><br><span class="line">    - chmod 700 ~/.ssh</span><br><span class="line">    - chmod 600 ~/.ssh/*</span><br><span class="line">    - export read_file=$(cat json.deploy | awk &#x27;END &#123;print&#125;&#x27;)</span><br><span class="line">    - &gt;</span><br><span class="line">      if [ ! $deploy_file ]; then</span><br><span class="line">        export deploy_file=$read_file</span><br><span class="line">      fi</span><br><span class="line">  when: manual</span><br><span class="line">  script:</span><br><span class="line">    - fab deploy:branch=$&#123;CI_COMMIT_BRANCH&#125;,json_file=$&#123;deploy_file&#125;</span><br><span class="line">    - echo &quot;$&#123;deploy_file&#125;&quot;</span><br><span class="line"></span><br><span class="line"># master 分支发布生产的任务流</span><br><span class="line">prod deploy:</span><br><span class="line">  extends: .fab</span><br><span class="line">  variables:</span><br><span class="line">    ENV: prod</span><br><span class="line">  only:</span><br><span class="line">    - master@be/marketing/dolphin</span><br><span class="line"></span><br><span class="line"># dev 分支发布测试环境的任务流</span><br><span class="line">alpha deploy:</span><br><span class="line">  extends: .fab</span><br><span class="line">  only:</span><br><span class="line">    - dev@be/marketing/dolphin</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/WechatIMG262.jpeg" alt="Dolphin-deploy"></p>
+<p>然后在发布的时候通过手动指定 deploy_file 字段来指定发布的json就ok了</p>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS_CLICK -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
+
+<!-- add animation -->
+<style>
+	.disqus_click_btn {
+            line-height: 30px;
+            margin: 0;
+            min-width: 50px;
+            padding: 0 14px;
+            display: inline-block;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            overflow: hidden;
+            will-change: box-shadow;
+            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(158, 158, 158, .2);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+            color: #fff;
+            background-color: #7EC0EE;
+            text-shadow: 0
+        }
+</style>
+	
+<div class="btn_click_load" id="disqus_bt"> 
+    <button class="disqus_click_btn">点击查看评论</button>
+</div>
+
+<!--
+<script type="text/javascript">
+$('.btn_click_load').click(function() {
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-miccall-tech'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    document.getElementById('disqus_bt').style.display = "none";
+});
+</script>
+-->
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://example.com/2022/12/03/Dolphin-python-api/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://example.com/2022/12/03/Dolphin-python-api/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+
+<script type="text/javascript">
+    $('.btn_click_load').click(function() {  //click to load comments
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document;
+            var s = d.createElement('script');
+            s.src = '//http-miccall-tech.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', + new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        $('.btn_click_load').css('display','none');
+    });
+</script>
+</div>
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a target="_blank" rel="noopener" href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
