@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    Hexo
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">MICCALL</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <li class="active">
+	            <a href="#s1">分类</a>
+	                    <ul class="submenu">
+	                        <li>
+	                        
+	                    </ul>
+	        </li>
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="个人">
+		                个人
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tag/" title="标签">
+		                标签
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/miccall" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a title="500px" href="http://500px.com" target="_blank" rel="noopener">
+                            <i class="icon fa fa-500px"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/zs1.jpeg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Spark 学习笔记</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="Spark-学习笔记"><a href="#Spark-学习笔记" class="headerlink" title="Spark 学习笔记"></a>Spark 学习笔记</h1><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><h3 id="RDD-基本概念"><a href="#RDD-基本概念" class="headerlink" title="RDD 基本概念"></a>RDD 基本概念</h3><p>RDD 是构建 Spark 分布式内存计算引擎的基石，尽管现在大部分情况下不会直接使用 RDD API，但是应用在 Spark 内部最终都会转为 RDD 之上的分布式计算。RDD 是一种抽象，是 Spark 对于分布式数据集的抽象，它用于囊括所有内存中和磁盘中的分布式数据实体。</p>
+<p>对于RDD的理解，可以把它理解为数组，但与数组不同的是，数组是真实的数据结构实体，RDD 则是数据类型的抽象，RDD 可以跨进程、跨计算节点，而数组只能在单机进程里。</p>
+<h3 id="RDD-编程模型"><a href="#RDD-编程模型" class="headerlink" title="RDD 编程模型"></a>RDD 编程模型</h3><p>在 RDD 的编程模型中，一共有两种算子，Transformations 类算子和 Actions 类算子。</p>
+<p>开发者需要使用 Transformations 类算子，定义并描述数据形态的转换过程，然后调用 Actions 类算子，将计算结果收集起来、或是物化到磁盘。</p>
+<p>在这样的编程模型下，Spark 在运行时的计算被划分为两个环节。</p>
+<ol>
+<li>基于不同数据形态之间的转换，构建计算流图（DAG，Directed Acyclic Graph）</li>
+<li>通过 Actions 类算子，以回溯的方式去触发执行这个计算流图。</li>
+</ol>
+<p>换句话说，开发者调用的各类 Transformations 算子，并不立即执行计算，当且仅当开发者调用 Actions 算子时，之前调用的转换算子才会付诸执行。在业内，这样的计算模式有个专门的术语，叫作“延迟计算”</p>
+<p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/spark1.jpeg" alt="spark-rdd"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line"></span><br><span class="line">val rootPath: String = _</span><br><span class="line">val file: String = s&quot;$&#123;rootPath&#125;/wikiOfSpark.txt&quot;</span><br><span class="line">// 读取文件内容</span><br><span class="line">// 通过调用 textFile API 生成 lineRDD</span><br><span class="line">val lineRDD: RDD[String] = spark.sparkContext.textFile(file)</span><br><span class="line">// 以行为单位做分词</span><br><span class="line">// 用 flatMap 算子把 lineRDD 转换为 wordRDD</span><br><span class="line">val wordRDD: RDD[String] = lineRDD.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">// filter 算子对 wordRDD 做过滤，并把它转换为不带空串的 cleanWordRDD</span><br><span class="line">val cleanWordRDD: RDD[String] = wordRDD.filter(word =&gt; !word.equals(&quot;&quot;))</span><br><span class="line">// map 算子把 cleanWordRDD 又转换成元素为（Key，Value）对的 kvRDD</span><br><span class="line">val kvRDD: RDD[(String, Int)] = cleanWordRDD.map(word =&gt; (word, 1))</span><br><span class="line">// 按照单词做分组计数</span><br><span class="line">// 调用 reduceByKey 做分组聚合，把 kvRDD 中的 Value 从 1 转换为单词计数</span><br><span class="line">val wordCounts: RDD[(String, Int)] = kvRDD.reduceByKey((x, y) =&gt; x + y)</span><br><span class="line">// 打印词频最高的5个词汇</span><br><span class="line">wordCounts.map&#123;case (k, v) =&gt; (v, k)&#125;.sortByKey(false).take(5)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该例子中，前述的 flatMap、filter、map 操作都会立即返回，因为这些操作都不会立刻执行，直到最后的take 操作，Spark 才会触发从头到尾的计算流程。</p>
+<h3 id="常用-RDD-算子"><a href="#常用-RDD-算子" class="headerlink" title="常用 RDD 算子"></a>常用 RDD 算子</h3><h4 id="map-以元素为粒度的数据转换"><a href="#map-以元素为粒度的数据转换" class="headerlink" title="map :以元素为粒度的数据转换"></a>map :以元素为粒度的数据转换</h4><p>和Java 中的流式数据中的map相似，给定映射函数 f，map(f) 以元素为粒度对 RDD 做数据转换。其中 f 可以是带有明确签名的带名函数，也可以是匿名函数，它的形参类型必须与 RDD 的元素类型保持一致，而输出类型则任由开发者自行决定。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 把RDD元素转换为（Key，Value）的形式</span><br><span class="line"> </span><br><span class="line">// 定义映射函数f</span><br><span class="line">def f(word: String): (String, Int) = &#123;</span><br><span class="line">return (word, 1)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">val cleanWordRDD: RDD[String] = _ </span><br><span class="line">val kvRDD: RDD[(String, Int)] = cleanWordRDD.map(f)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="mapPartitions：以数据分区为粒度的数据转换"><a href="#mapPartitions：以数据分区为粒度的数据转换" class="headerlink" title="mapPartitions：以数据分区为粒度的数据转换"></a>mapPartitions：以数据分区为粒度的数据转换</h4><p>以数据分区为粒度，使用映射函数 f 对 RDD 进行数据转换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 把普通RDD转换为Paired RDD</span><br><span class="line"> </span><br><span class="line">import java.security.MessageDigest</span><br><span class="line"> </span><br><span class="line">val cleanWordRDD: RDD[String] = _ </span><br><span class="line"> </span><br><span class="line">val kvRDD: RDD[(String, Int)] = cleanWordRDD.mapPartitions( partition =&gt; &#123;</span><br><span class="line">  // 注意！这里是以数据分区为粒度，获取MD5对象实例</span><br><span class="line">  val md5 = MessageDigest.getInstance(&quot;MD5&quot;)</span><br><span class="line">  val newPartition = partition.map( word =&gt; &#123;</span><br><span class="line">  // 在处理每一条数据记录的时候，可以复用同一个Partition内的MD5对象</span><br><span class="line">    (md5.digest(word.getBytes()).mkString,1)</span><br><span class="line">  &#125;)</span><br><span class="line">  newPartition</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在上面的改进代码中，mapPartitions 以数据分区（匿名函数的形参 partition）为粒度，对 RDD 进行数据转换。具体的数据处理逻辑，则由代表数据分区的形参 partition 进一步调用 map(f) 来完成。但是相比如果用 map 实现这个功能，实例化 md5 的代码只需要被执行一次，极大提升了性能。</p>
+<h4 id="flatMap：从元素到集合、再从集合到元素"><a href="#flatMap：从元素到集合、再从集合到元素" class="headerlink" title="flatMap：从元素到集合、再从集合到元素"></a>flatMap：从元素到集合、再从集合到元素</h4><p>和Java流式flatMap相似，flatMap 映射函数 f 的类型，是（元素） &#x3D;&gt; （集合），即元素到集合（如数组、列表等）。因此，flatMap 的映射过程在逻辑上分为两步：</p>
+<ol>
+<li>以元素为单位，创建集合；</li>
+<li>去掉集合“外包装”，提取集合元素。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 读取文件内容</span><br><span class="line">val lineRDD: RDD[String] = _ // 请参考第一讲获取完整代码</span><br><span class="line">// 以行为单位提取相邻单词</span><br><span class="line">val wordPairRDD: RDD[String] = lineRDD.flatMap( line =&gt; &#123;</span><br><span class="line">  // 将行转换为单词数组</span><br><span class="line">  val words: Array[String] = line.split(&quot; &quot;)</span><br><span class="line">  // 将单个单词数组，转换为相邻单词数组</span><br><span class="line">  for (i &lt;- 0 until words.length - 1) yield words(i) + &quot;-&quot; + words(i+1)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们采用匿名函数的形式，来提供映射函数 f。这里 f 的形参是 String 类型的 line，也就是源文件中的一行文本，而 f 的返回类型是 Array[String]，也就是 String 类型的数组。在映射函数 f 的函数体中，我们先用 split 语句把 line 转化为单词数组，然后再用 for 循环结合 yield 语句，依次把单个的单词，转化为相邻单词词对。注意，for 循环返回的依然是数组，也即类型为 Array[String]的词对数组。由此可见，函数 f 的类型是（String） &#x3D;&gt; （Array[String]），也就是刚刚说的第一步，从元素到集合。但如果我们去观察转换前后的两个 RDD，也就是 lineRDD 和 wordPairRDD，会发现它们的类型都是 RDD[String]，换句话说，它们的元素类型都是 String。</p>
+<h4 id="filter：过滤-RDD"><a href="#filter：过滤-RDD" class="headerlink" title="filter：过滤 RDD"></a>filter：过滤 RDD</h4><p>和Java流式filter相似</p>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS_CLICK -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
+
+<!-- add animation -->
+<style>
+	.disqus_click_btn {
+            line-height: 30px;
+            margin: 0;
+            min-width: 50px;
+            padding: 0 14px;
+            display: inline-block;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            overflow: hidden;
+            will-change: box-shadow;
+            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(158, 158, 158, .2);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+            color: #fff;
+            background-color: #7EC0EE;
+            text-shadow: 0
+        }
+</style>
+	
+<div class="btn_click_load" id="disqus_bt"> 
+    <button class="disqus_click_btn">点击查看评论</button>
+</div>
+
+<!--
+<script type="text/javascript">
+$('.btn_click_load').click(function() {
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-miccall-tech'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    document.getElementById('disqus_bt').style.display = "none";
+});
+</script>
+-->
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://example.com/2023/03/18/Spark%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://example.com/2023/03/18/Spark%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+
+<script type="text/javascript">
+    $('.btn_click_load').click(function() {  //click to load comments
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document;
+            var s = d.createElement('script');
+            s.src = '//http-miccall-tech.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', + new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        $('.btn_click_load').css('display','none');
+    });
+</script>
+</div>
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a target="_blank" rel="noopener" href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
