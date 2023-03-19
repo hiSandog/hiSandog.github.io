@@ -185,7 +185,32 @@
 
 <p>在上面的代码中，我们采用匿名函数的形式，来提供映射函数 f。这里 f 的形参是 String 类型的 line，也就是源文件中的一行文本，而 f 的返回类型是 Array[String]，也就是 String 类型的数组。在映射函数 f 的函数体中，我们先用 split 语句把 line 转化为单词数组，然后再用 for 循环结合 yield 语句，依次把单个的单词，转化为相邻单词词对。注意，for 循环返回的依然是数组，也即类型为 Array[String]的词对数组。由此可见，函数 f 的类型是（String） &#x3D;&gt; （Array[String]），也就是刚刚说的第一步，从元素到集合。但如果我们去观察转换前后的两个 RDD，也就是 lineRDD 和 wordPairRDD，会发现它们的类型都是 RDD[String]，换句话说，它们的元素类型都是 String。</p>
 <h4 id="filter：过滤-RDD"><a href="#filter：过滤-RDD" class="headerlink" title="filter：过滤 RDD"></a>filter：过滤 RDD</h4><p>和Java流式filter相似</p>
+<h4 id="groupByKey：分组收集"><a href="#groupByKey：分组收集" class="headerlink" title="groupByKey：分组收集"></a>groupByKey：分组收集</h4><p>groupByKey 算子包含两步，即分组和收集。</p>
+<p>具体来说，对于元素类型为（Key，Value）键值对的 Paired RDD，groupByKey 的功能就是对 Key 值相同的元素做分组，然后把相应的 Value 值，以集合的形式收集到一起。换句话说，groupByKey 会把 RDD 的类型，由 RDD[(Key, Value)]转换为 RDD[(Key, Value 集合)]。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line"> </span><br><span class="line">// 以行为单位做分词</span><br><span class="line">val cleanWordRDD: RDD[String] = _ </span><br><span class="line">// 把普通RDD映射为Paired RDD</span><br><span class="line">val kvRDD: RDD[(String, String)] = cleanWordRDD.map(word =&gt; (word, word))</span><br><span class="line"> </span><br><span class="line">// 按照单词做分组收集</span><br><span class="line">val words: RDD[(String, Iterable[String])] = kvRDD.groupByKey()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h2 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h2><h3 id="DataFrame-基本概念"><a href="#DataFrame-基本概念" class="headerlink" title="DataFrame 基本概念"></a>DataFrame 基本概念</h3><p>DataFrame 与 RDD 一样，都是用来封装分布式数据集的。但在数据表示方面就不一样了，DataFrame 是携带数据模式的结构化数据，而 RDD 是不携带 Schema 的分布式数据集。因为有了 Schema 提供明确的类型信息，Spark 才能有针对性地设计出更紧凑的数据结构，从而大幅度提升数据存储与访问效率。</p>
+<h3 id="创建-DataFrame"><a href="#创建-DataFrame" class="headerlink" title="创建 DataFrame"></a>创建 DataFrame</h3><h4 id="createDataFrame-方法"><a href="#createDataFrame-方法" class="headerlink" title="createDataFrame 方法"></a>createDataFrame 方法</h4><ol>
+<li>定义列表数据 seq。seq 的每个元素都是二元元组，元组第一个元素的类型是 String，第二个元素的类型是 Int。有了列表数据结构，创建 RDD</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line">val seq: Seq[(String, Int)] = Seq((&quot;傅红雪&quot;, 14), (&quot;聂风&quot;, 18))</span><br><span class="line">val rdd: RDD[(String, Int)] = sc.parallelize(seq)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>定义schema数据结构</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.sql.types.&#123;StringType, IntegerType, StructField, StructType&#125;</span><br><span class="line">val schema:StructType = StructType( Array(</span><br><span class="line">StructField(&quot;name&quot;, StringType),</span><br><span class="line">StructField(&quot;age&quot;, IntegerType)</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>createDataFrame 方法有两个形参，第一个参数正是 RDD，第二个参数是 Schema。createDataFrame 要求 RDD 的类型必须是 RDD[Row]，其中的 Row 是 org.apache.spark.sql.Row，因此，对于类型为 RDD[(String, Int)]的 rdd，我们需要把它转换为 RDD[Row]。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.sql.Row</span><br><span class="line">val rowRDD: RDD[Row] = rdd.map(fileds =&gt; Row(fileds._1, fileds._2))</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>创建 DataFrame ，验证数据</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.sql.DataFrame</span><br><span class="line">val dataFrame: DataFrame = spark.createDataFrame(rowRDD,schema)</span><br><span class="line">dataFrame.show</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="从orc文件中读取并创建-DataFrame"><a href="#从orc文件中读取并创建-DataFrame" class="headerlink" title="从orc文件中读取并创建 DataFrame"></a>从orc文件中读取并创建 DataFrame</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">val orcFilePath: String = _</span><br><span class="line">val df: DataFrame = spark.read.format(&quot;orc&quot;).load(orcFilePath)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
             </div>
 
             <!-- Post Comments -->
