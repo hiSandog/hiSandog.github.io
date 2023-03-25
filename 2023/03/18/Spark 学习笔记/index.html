@@ -156,9 +156,9 @@
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h1 id="Spark-学习笔记"><a href="#Spark-学习笔记" class="headerlink" title="Spark 学习笔记"></a>Spark 学习笔记</h1><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><h3 id="RDD-基本概念"><a href="#RDD-基本概念" class="headerlink" title="RDD 基本概念"></a>RDD 基本概念</h3><p>RDD 是构建 Spark 分布式内存计算引擎的基石，尽管现在大部分情况下不会直接使用 RDD API，但是应用在 Spark 内部最终都会转为 RDD 之上的分布式计算。RDD 是一种抽象，是 Spark 对于分布式数据集的抽象，它用于囊括所有内存中和磁盘中的分布式数据实体。</p>
+                <h1 id="Spark-学习笔记"><a href="#Spark-学习笔记" class="headerlink" title="Spark 学习笔记"></a>Spark 学习笔记</h1><h2 id="一、RDD"><a href="#一、RDD" class="headerlink" title="一、RDD"></a>一、RDD</h2><h3 id="1、RDD-基本概念"><a href="#1、RDD-基本概念" class="headerlink" title="1、RDD 基本概念"></a>1、RDD 基本概念</h3><p>RDD 是构建 Spark 分布式内存计算引擎的基石，尽管现在大部分情况下不会直接使用 RDD API，但是应用在 Spark 内部最终都会转为 RDD 之上的分布式计算。RDD 是一种抽象，是 Spark 对于分布式数据集的抽象，它用于囊括所有内存中和磁盘中的分布式数据实体。</p>
 <p>对于RDD的理解，可以把它理解为数组，但与数组不同的是，数组是真实的数据结构实体，RDD 则是数据类型的抽象，RDD 可以跨进程、跨计算节点，而数组只能在单机进程里。</p>
-<h3 id="RDD-编程模型"><a href="#RDD-编程模型" class="headerlink" title="RDD 编程模型"></a>RDD 编程模型</h3><p>在 RDD 的编程模型中，一共有两种算子，Transformations 类算子和 Actions 类算子。</p>
+<h3 id="2、RDD-编程模型"><a href="#2、RDD-编程模型" class="headerlink" title="2、RDD 编程模型"></a>2、RDD 编程模型</h3><p>在 RDD 的编程模型中，一共有两种算子，Transformations 类算子和 Actions 类算子。</p>
 <p>开发者需要使用 Transformations 类算子，定义并描述数据形态的转换过程，然后调用 Actions 类算子，将计算结果收集起来、或是物化到磁盘。</p>
 <p>在这样的编程模型下，Spark 在运行时的计算被划分为两个环节。</p>
 <ol>
@@ -170,7 +170,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line"></span><br><span class="line">val rootPath: String = _</span><br><span class="line">val file: String = s&quot;$&#123;rootPath&#125;/wikiOfSpark.txt&quot;</span><br><span class="line">// 读取文件内容</span><br><span class="line">// 通过调用 textFile API 生成 lineRDD</span><br><span class="line">val lineRDD: RDD[String] = spark.sparkContext.textFile(file)</span><br><span class="line">// 以行为单位做分词</span><br><span class="line">// 用 flatMap 算子把 lineRDD 转换为 wordRDD</span><br><span class="line">val wordRDD: RDD[String] = lineRDD.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">// filter 算子对 wordRDD 做过滤，并把它转换为不带空串的 cleanWordRDD</span><br><span class="line">val cleanWordRDD: RDD[String] = wordRDD.filter(word =&gt; !word.equals(&quot;&quot;))</span><br><span class="line">// map 算子把 cleanWordRDD 又转换成元素为（Key，Value）对的 kvRDD</span><br><span class="line">val kvRDD: RDD[(String, Int)] = cleanWordRDD.map(word =&gt; (word, 1))</span><br><span class="line">// 按照单词做分组计数</span><br><span class="line">// 调用 reduceByKey 做分组聚合，把 kvRDD 中的 Value 从 1 转换为单词计数</span><br><span class="line">val wordCounts: RDD[(String, Int)] = kvRDD.reduceByKey((x, y) =&gt; x + y)</span><br><span class="line">// 打印词频最高的5个词汇</span><br><span class="line">wordCounts.map&#123;case (k, v) =&gt; (v, k)&#125;.sortByKey(false).take(5)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>该例子中，前述的 flatMap、filter、map 操作都会立即返回，因为这些操作都不会立刻执行，直到最后的take 操作，Spark 才会触发从头到尾的计算流程。</p>
-<h3 id="常用-RDD-算子"><a href="#常用-RDD-算子" class="headerlink" title="常用 RDD 算子"></a>常用 RDD 算子</h3><h4 id="map-以元素为粒度的数据转换"><a href="#map-以元素为粒度的数据转换" class="headerlink" title="map :以元素为粒度的数据转换"></a>map :以元素为粒度的数据转换</h4><p>和Java 中的流式数据中的map相似，给定映射函数 f，map(f) 以元素为粒度对 RDD 做数据转换。其中 f 可以是带有明确签名的带名函数，也可以是匿名函数，它的形参类型必须与 RDD 的元素类型保持一致，而输出类型则任由开发者自行决定。</p>
+<h3 id="3、常用-RDD-算子"><a href="#3、常用-RDD-算子" class="headerlink" title="3、常用 RDD 算子"></a>3、常用 RDD 算子</h3><h4 id="map-以元素为粒度的数据转换"><a href="#map-以元素为粒度的数据转换" class="headerlink" title="map :以元素为粒度的数据转换"></a>map :以元素为粒度的数据转换</h4><p>和Java 中的流式数据中的map相似，给定映射函数 f，map(f) 以元素为粒度对 RDD 做数据转换。其中 f 可以是带有明确签名的带名函数，也可以是匿名函数，它的形参类型必须与 RDD 的元素类型保持一致，而输出类型则任由开发者自行决定。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 把RDD元素转换为（Key，Value）的形式</span><br><span class="line"> </span><br><span class="line">// 定义映射函数f</span><br><span class="line">def f(word: String): (String, Int) = &#123;</span><br><span class="line">return (word, 1)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">val cleanWordRDD: RDD[String] = _ </span><br><span class="line">val kvRDD: RDD[(String, Int)] = cleanWordRDD.map(f)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="mapPartitions：以数据分区为粒度的数据转换"><a href="#mapPartitions：以数据分区为粒度的数据转换" class="headerlink" title="mapPartitions：以数据分区为粒度的数据转换"></a>mapPartitions：以数据分区为粒度的数据转换</h4><p>以数据分区为粒度，使用映射函数 f 对 RDD 进行数据转换</p>
@@ -189,8 +189,8 @@
 <p>具体来说，对于元素类型为（Key，Value）键值对的 Paired RDD，groupByKey 的功能就是对 Key 值相同的元素做分组，然后把相应的 Value 值，以集合的形式收集到一起。换句话说，groupByKey 会把 RDD 的类型，由 RDD[(Key, Value)]转换为 RDD[(Key, Value 集合)]。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line"> </span><br><span class="line">// 以行为单位做分词</span><br><span class="line">val cleanWordRDD: RDD[String] = _ </span><br><span class="line">// 把普通RDD映射为Paired RDD</span><br><span class="line">val kvRDD: RDD[(String, String)] = cleanWordRDD.map(word =&gt; (word, word))</span><br><span class="line"> </span><br><span class="line">// 按照单词做分组收集</span><br><span class="line">val words: RDD[(String, Iterable[String])] = kvRDD.groupByKey()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h2><h3 id="DataFrame-基本概念"><a href="#DataFrame-基本概念" class="headerlink" title="DataFrame 基本概念"></a>DataFrame 基本概念</h3><p>DataFrame 与 RDD 一样，都是用来封装分布式数据集的。但在数据表示方面就不一样了，DataFrame 是携带数据模式的结构化数据，而 RDD 是不携带 Schema 的分布式数据集。因为有了 Schema 提供明确的类型信息，Spark 才能有针对性地设计出更紧凑的数据结构，从而大幅度提升数据存储与访问效率。</p>
-<h3 id="创建-DataFrame"><a href="#创建-DataFrame" class="headerlink" title="创建 DataFrame"></a>创建 DataFrame</h3><h4 id="createDataFrame-方法"><a href="#createDataFrame-方法" class="headerlink" title="createDataFrame 方法"></a>createDataFrame 方法</h4><ol>
+<h2 id="二、DataFrame"><a href="#二、DataFrame" class="headerlink" title="二、DataFrame"></a>二、DataFrame</h2><h3 id="1、DataFrame-基本概念"><a href="#1、DataFrame-基本概念" class="headerlink" title="1、DataFrame 基本概念"></a>1、DataFrame 基本概念</h3><p>DataFrame 与 RDD 一样，都是用来封装分布式数据集的。但在数据表示方面就不一样了，DataFrame 是携带数据模式的结构化数据，而 RDD 是不携带 Schema 的分布式数据集。因为有了 Schema 提供明确的类型信息，Spark 才能有针对性地设计出更紧凑的数据结构，从而大幅度提升数据存储与访问效率。</p>
+<h3 id="2、创建-DataFrame"><a href="#2、创建-DataFrame" class="headerlink" title="2、创建 DataFrame"></a>2、创建 DataFrame</h3><h4 id="createDataFrame-方法"><a href="#createDataFrame-方法" class="headerlink" title="createDataFrame 方法"></a>createDataFrame 方法</h4><ol>
 <li>定义列表数据 seq。seq 的每个元素都是二元元组，元组第一个元素的类型是 String，第二个元素的类型是 Int。有了列表数据结构，创建 RDD</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line">val seq: Seq[(String, Int)] = Seq((&quot;傅红雪&quot;, 14), (&quot;聂风&quot;, 18))</span><br><span class="line">val rdd: RDD[(String, Int)] = sc.parallelize(seq)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -211,6 +211,224 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.sql.DataFrame</span><br><span class="line">val dataFrame: DataFrame = spark.createDataFrame(rowRDD,schema)</span><br><span class="line">dataFrame.show</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="从orc文件中读取并创建-DataFrame"><a href="#从orc文件中读取并创建-DataFrame" class="headerlink" title="从orc文件中读取并创建 DataFrame"></a>从orc文件中读取并创建 DataFrame</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">val orcFilePath: String = _</span><br><span class="line">val df: DataFrame = spark.read.format(&quot;orc&quot;).load(orcFilePath)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="直接从json字符串中解析并自动创建-DataFrame"><a href="#直接从json字符串中解析并自动创建-DataFrame" class="headerlink" title="直接从json字符串中解析并自动创建 DataFrame"></a>直接从json字符串中解析并自动创建 DataFrame</h4><ol>
+<li>定义Json字符串，自动解析成 DataSet</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val sk = &quot;&quot;&quot;&#123;&quot;id&quot;:3,&quot;biz_shop_id&quot;:112,&quot;biz_brand_name&quot;:&quot;苍天陨落&quot;&#125;&quot;&quot;&quot;</span><br><span class="line">import sparkSession.implicits._</span><br><span class="line">val ds = sparkSession.createDataset(Seq(sk))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>定义Model</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">case class TestModel(</span><br><span class="line">                              id: Long,</span><br><span class="line">                              biz_shop_id: Long,</span><br><span class="line">                              biz_brand_name: String</span><br><span class="line">                            )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>解析Json 字符串，生成 model</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  val mapper: JsonMapper = JsonMapper.builder()</span><br><span class="line">    .addModule(DefaultScalaModule)</span><br><span class="line">    .build()</span><br><span class="line">val df = ds.map(setStr =&gt; mapper.readValue(setStr, classOf[TestModel]))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、DataFrame-数据处理"><a href="#3、DataFrame-数据处理" class="headerlink" title="3、DataFrame 数据处理"></a>3、DataFrame 数据处理</h3><h4 id="创建临时表"><a href="#创建临时表" class="headerlink" title="创建临时表"></a>创建临时表</h4><p>对于任意的 DataFrame，都可以使用 createTempView 或是 createGlobalTempView 在 Spark SQL 中创建临时数据表。</p>
+<p>两者的区别在于，createTempView 创建的临时表，其生命周期仅限于 SparkSession 内部，而 createGlobalTempView 创建的临时表，可以在同一个应用程序中跨 SparkSession 提供访问。有了临时表之后，我们就可以使用 SQL 语句灵活地倒腾表数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.sql.DataFrame</span><br><span class="line">import spark.implicits._</span><br><span class="line"> </span><br><span class="line">val seq = Seq((&quot;傅红雪&quot;, 18), (&quot;路小佳&quot;, 14))</span><br><span class="line">val df = seq.toDF(&quot;name&quot;, &quot;age&quot;)</span><br><span class="line"> </span><br><span class="line">df.createTempView(&quot;t1&quot;)</span><br><span class="line">val query: String = &quot;select * from t1&quot;</span><br><span class="line">// spark为SparkSession实例对象</span><br><span class="line">val result: DataFrame = spark.sql(query)</span><br><span class="line"> </span><br><span class="line">result.show</span><br><span class="line"> </span><br><span class="line">/** 结果打印</span><br><span class="line">+-----+---+</span><br><span class="line">| n ame| age|</span><br><span class="line">+-----+---+</span><br><span class="line">| 傅红雪| 18|</span><br><span class="line">| 路小佳| 14|</span><br><span class="line">+-----+---+</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<p>与 RDD 的开发模式一样，DataFrame 之间的转换也属于延迟计算，当且仅当出现 Action 类算子时，如上表中的 show，所有之前的转换过程才会交付执行。</p>
+<h3 id="4、DataFrame-算子"><a href="#4、DataFrame-算子" class="headerlink" title="4、DataFrame 算子"></a>4、DataFrame 算子</h3><h4 id="RDD-同源类算子"><a href="#RDD-同源类算子" class="headerlink" title="RDD 同源类算子"></a>RDD 同源类算子</h4><table>
+<thead>
+<tr>
+<th>算子用途</th>
+<th>算子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据转换</td>
+<td>map&#x2F;mapPartitons&#x2F;flatMap&#x2F;filter</td>
+</tr>
+<tr>
+<td>数据聚合</td>
+<td>groupByKey&#x2F;reduce</td>
+</tr>
+<tr>
+<td>数据准备</td>
+<td>union&#x2F;sample</td>
+</tr>
+<tr>
+<td>数据预处理</td>
+<td>repartition&#x2F;coalesce</td>
+</tr>
+<tr>
+<td>结构收集</td>
+<td>first&#x2F;take&#x2F;collect</td>
+</tr>
+</tbody></table>
+<h4 id="探索类算子"><a href="#探索类算子" class="headerlink" title="探索类算子"></a>探索类算子</h4><table>
+<thead>
+<tr>
+<th>算子用途</th>
+<th>算子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看数据模式</td>
+<td>columns&#x2F;schema&#x2F;printSchema</td>
+</tr>
+<tr>
+<td>查看数据</td>
+<td>show</td>
+</tr>
+<tr>
+<td>查看数据分布</td>
+<td>describe</td>
+</tr>
+<tr>
+<td>查看数据的执行计划</td>
+<td>explain</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import org.apache.spark.sql.DataFrame</span><br><span class="line">import spark.implicits._</span><br><span class="line"> </span><br><span class="line">val employees = Seq((1, &quot;John&quot;, 26, &quot;Male&quot;), (2, &quot;Lily&quot;, 28, &quot;Female&quot;), (3, &quot;Raymond&quot;, 30, &quot;Male&quot;))</span><br><span class="line">val employeesDF: DataFrame = employees.toDF(&quot;id&quot;, &quot;name&quot;, &quot;age&quot;, &quot;gender&quot;)</span><br><span class="line"> </span><br><span class="line">employeesDF.printSchema</span><br><span class="line"> </span><br><span class="line">/** 打印出表的结构</span><br><span class="line">root</span><br><span class="line">|-- id: integer (nullable = false)</span><br><span class="line">|-- name: string (nullable = true)</span><br><span class="line">|-- age: integer (nullable = false)</span><br><span class="line">|-- gender: string (nullable = true)</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<h4 id="清洗类算子"><a href="#清洗类算子" class="headerlink" title="清洗类算子"></a>清洗类算子</h4><table>
+<thead>
+<tr>
+<th>算子用途</th>
+<th>算子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>删除掉DataFrame的列数据</td>
+<td>drop</td>
+</tr>
+<tr>
+<td>去重</td>
+<td>distinct</td>
+</tr>
+<tr>
+<td>按照指定列去重</td>
+<td>dropDuplicates</td>
+</tr>
+<tr>
+<td>null值处理</td>
+<td>na</td>
+</tr>
+</tbody></table>
+<ul>
+<li>drop 可以删除指定列 df.drop(“emp_name”)</li>
+<li>distinct，它用来为 DataFrame 中的数据做去重。还是以 employeesDF 为例，当有多条数据记录的所有字段值都相同时，使用 distinct 可以仅保留其中的一条数据记录。</li>
+<li>na，它的作用是选取 DataFrame 中的 null 数据，na 往往要结合 drop 或是 fill 来使用。例如，employeesDF.na.drop 用于删除 DataFrame 中带 null 值的数据记录，而 employeesDF.na.fill(0) 则将 DataFrame 中所有的 null 值都自动填充为整数零。</li>
+</ul>
+<h4 id="转换类算子"><a href="#转换类算子" class="headerlink" title="转换类算子"></a>转换类算子</h4><table>
+<thead>
+<tr>
+<th>算子用途</th>
+<th>算子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>按照列名对数据做投影</td>
+<td>select</td>
+</tr>
+<tr>
+<td>以SQL语句为参数生成、提取数据</td>
+<td>selectExpr</td>
+</tr>
+<tr>
+<td>以SQL语句为参数做数据过滤</td>
+<td>where</td>
+</tr>
+<tr>
+<td>字段重命名</td>
+<td>withColumnRenamed</td>
+</tr>
+<tr>
+<td>生成新的数据列</td>
+<td>withColumn</td>
+</tr>
+<tr>
+<td>展开数组类的数据列</td>
+<td>explode</td>
+</tr>
+</tbody></table>
+<ul>
+<li>select 算子让我们可以按照列名对 DataFrame 做投影，比如说，如果我们只关心年龄与性别这两个字段的话，就可以使用下面的语句来实现。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">employeesDF.select(&quot;name&quot;, &quot;gender&quot;).show</span><br><span class="line"> </span><br><span class="line">/** 结果打印</span><br><span class="line">+-------+------+</span><br><span class="line">| name|gender|</span><br><span class="line">+-------+------+</span><br><span class="line">| John| Male|</span><br><span class="line">| Lily|Female|</span><br><span class="line">|Raymond| Male|</span><br><span class="line">+-------+------+</span><br><span class="line">*/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>where 算子 过滤数据，想要过滤出所有性别为男的员工，我们就可以用 employeesDF.where(“gender &#x3D; ‘Male’”) 来实现。</li>
+<li>withColumnRenamed 重命名字段，如果打算把 employeesDF 当中的“gender”重命名为“sex”，就可以用 withColumnRenamed ：employeesDF.withColumnRenamed(“gender”, “sex”)。</li>
+<li>withColumn 用于生成新的数据列</li>
+</ul>
+<h4 id="分析类算子"><a href="#分析类算子" class="headerlink" title="分析类算子"></a>分析类算子</h4><table>
+<thead>
+<tr>
+<th>算子用途</th>
+<th>算子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>两个DataFrame 做数据关联</td>
+<td>join</td>
+</tr>
+<tr>
+<td>按照某列对数组做分组</td>
+<td>groupBy</td>
+</tr>
+<tr>
+<td>分组后做数据聚合</td>
+<td>agg</td>
+</tr>
+<tr>
+<td>按照某列做排序</td>
+<td>sort &#x2F; orderBy</td>
+</tr>
+</tbody></table>
+<ol>
+<li>数据准备</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import spark.implicits._</span><br><span class="line">import org.apache.spark.sql.DataFrame</span><br><span class="line"> </span><br><span class="line">// 创建员工信息表</span><br><span class="line">val seq = Seq((1, &quot;傅红雪&quot;, 28, &quot;Male&quot;), (2, &quot;聂风&quot;, 30, &quot;Female&quot;), (3, &quot;步惊云&quot;, 26, &quot;Male&quot;))</span><br><span class="line">val employees: DataFrame = seq.toDF(&quot;id&quot;, &quot;name&quot;, &quot;age&quot;, &quot;gender&quot;)</span><br><span class="line"> </span><br><span class="line">// 创建薪水表</span><br><span class="line">val seq2 = Seq((1, 26000), (2, 30000), (4, 25000), (3, 20000))</span><br><span class="line">val salaries:DataFrame = seq2.toDF(&quot;id&quot;, &quot;salary&quot;)</span><br><span class="line"> </span><br><span class="line">employees.show</span><br><span class="line"> </span><br><span class="line">/** 结果打印</span><br><span class="line">+---+-------+---+------+</span><br><span class="line">| id| name|age|gender|</span><br><span class="line">+---+-------+---+------+</span><br><span class="line">| 1| 傅红雪| 28| Male|</span><br><span class="line">| 2| 聂风| 30|Female|</span><br><span class="line">| 3|步惊云| 26| Male|</span><br><span class="line">+---+-------+---+------+</span><br><span class="line">*/</span><br><span class="line"> </span><br><span class="line">salaries.show</span><br><span class="line"> </span><br><span class="line">/** 结果打印</span><br><span class="line">+---+------+</span><br><span class="line">| id|salary|</span><br><span class="line">+---+------+</span><br><span class="line">| 1| 26000|</span><br><span class="line">| 2| 30000|</span><br><span class="line">| 4| 25000|</span><br><span class="line">| 3| 20000|</span><br><span class="line">+---+------+</span><br><span class="line">*/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>join 算子</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">val jointDF: DataFrame = salaries.join(employees, Seq(&quot;id&quot;), &quot;inner&quot;)</span><br><span class="line"> </span><br><span class="line">jointDF.show</span><br><span class="line"> </span><br><span class="line">/** 结果打印</span><br><span class="line">+---+------+-------+---+------+</span><br><span class="line">| id|salary| name|age|gender|</span><br><span class="line">+---+------+-------+---+------+</span><br><span class="line">| 1| 26000| 傅红雪| 28| Male|</span><br><span class="line">| 2| 30000| 聂风| 30|Female|</span><br><span class="line">| 3| 20000|步惊云| 26| Male|</span><br><span class="line">+---+------+-------+---+------+</span><br><span class="line">*/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>join 算子的参数有 3 类。第一类是待关联的数据表，在我们的例子中就是员工表 employees。第二类是关联键，也就是两张表之间依据哪些字段做关联，我们这里是 id 列。第三类是关联形式，关联形式有 inner、left、right、anti、semi 。</p>
+<ol start="3">
+<li>agg 算子</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">val aggResult = fullInfo.groupBy(&quot;gender&quot;).agg(sum(&quot;salary&quot;).as(&quot;sum_salary&quot;), avg(&quot;salary&quot;).as(&quot;avg_salary&quot;))</span><br><span class="line"> </span><br><span class="line">aggResult.show</span><br><span class="line"> </span><br><span class="line">/** 数据打印</span><br><span class="line">+------+----------+----------+</span><br><span class="line">|gender|sum_salary|avg_salary|</span><br><span class="line">+------+----------+----------+</span><br><span class="line">|Female| 30000| 30000.0|</span><br><span class="line">| Male| 46000| 23000.0|</span><br><span class="line">+------+----------+----------+</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>sort &#x2F; orderBy 算子</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">aggResult.sort(desc(&quot;sum_salary&quot;), asc(&quot;gender&quot;)).show</span><br><span class="line"> </span><br><span class="line">/** 结果打印</span><br><span class="line">+------+----------+----------+</span><br><span class="line">|gender|sum_salary|avg_salary|</span><br><span class="line">+------+----------+----------+</span><br><span class="line">| Male| 46000| 23000.0|</span><br><span class="line">|Female| 30000| 30000.0|</span><br><span class="line">+------+----------+----------+</span><br><span class="line">*/</span><br><span class="line"> </span><br><span class="line">aggResult.orderBy(desc(&quot;sum_salary&quot;), asc(&quot;gender&quot;)).show</span><br><span class="line"> </span><br><span class="line">/** 结果打印</span><br><span class="line">+------+----------+----------+</span><br><span class="line">|gender|sum_salary|avg_salary|</span><br><span class="line">+------+----------+----------+</span><br><span class="line">| Male| 46000| 23000.0|</span><br><span class="line">|Female| 30000| 30000.0|</span><br><span class="line">+------+----------+----------+</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<h4 id="持久化算子"><a href="#持久化算子" class="headerlink" title="持久化算子"></a>持久化算子</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df.write.format(&quot;org.apache.hudi&quot;)</span><br><span class="line">  .options(props)</span><br><span class="line">  .mode(SaveMode.Append)</span><br><span class="line">  .save(params.hudiEventBasePath + tableInfo.hiveDatabase + &quot;/&quot; + tableInfo.hudiTable + &quot;/&quot;)</span><br></pre></td></tr></table></figure>
+
+
+<table>
+<thead>
+<tr>
+<th>写入模式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Append</td>
+<td>以追加的模式写入</td>
+</tr>
+<tr>
+<td>Overwrite</td>
+<td>以覆盖的模式写入</td>
+</tr>
+<tr>
+<td>ErrorifError</td>
+<td>如果路径存在，直接报错</td>
+</tr>
+<tr>
+<td>Ignore</td>
+<td>如果路径存在，直接忽略，放弃写入</td>
+</tr>
+</tbody></table>
+
             </div>
 
             <!-- Post Comments -->
