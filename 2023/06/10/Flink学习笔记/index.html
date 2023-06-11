@@ -151,7 +151,7 @@
 </nav>
 
         <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/zhilang.jpeg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
                 <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Flink学习笔记</h2></a>
             </div>
             <!-- Post -->
@@ -185,6 +185,101 @@
 <li>第四个事件（事件时间为15）到达flink，watermark 更新为 11。</li>
 <li>当事件时间为 24 的事件到达flink，watermark 更新为 20，事件时间为 19 的事件的时间小于watermark，被定义为迟到事件，不纳入计算。</li>
 </ol>
+<h2 id="Window"><a href="#Window" class="headerlink" title="Window"></a>Window</h2><h3 id="Window-的类型"><a href="#Window-的类型" class="headerlink" title="Window 的类型"></a>Window 的类型</h3><h4 id="1、Sliding-Window（滑动窗口）"><a href="#1、Sliding-Window（滑动窗口）" class="headerlink" title="1、Sliding Window（滑动窗口）"></a>1、Sliding Window（滑动窗口）</h4><p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/WechatIMG78.jpeg" alt="Watermark"></p>
+<ul>
+<li>滑动窗口以一个步长（Slide）不断向前滑动，窗口的长度固定。<ul>
+<li>Window Size：窗口大小</li>
+<li>Window Slide：滑动间隔</li>
+</ul>
+</li>
+<li>数据可以被重复计算，取决于 Size 和 Slide Time <ul>
+<li>Slide Time &lt; Window Size 数据多个窗口中统计</li>
+<li>Slide Time &gt; Window Size：数据可能不再任何一个 Window 中</li>
+</ul>
+</li>
+<li>应用非常广泛<ul>
+<li>每隔5 min 统计前10 min 的总数</li>
+</ul>
+</li>
+</ul>
+<h4 id="2、Tumbliing-Window（滚动窗口）"><a href="#2、Tumbliing-Window（滚动窗口）" class="headerlink" title="2、Tumbliing Window（滚动窗口）"></a>2、Tumbliing Window（滚动窗口）</h4><p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/WechatIMG79.jpeg" alt="Watermark"></p>
+<ul>
+<li>滚动窗口下窗口之间之间不重叠，且窗口长度是固定的</li>
+<li>特殊的滑动窗口 Window Size &#x3D; Window Slide</li>
+<li>应用实例<ul>
+<li>每5分钟统计一次用户总的成交额</li>
+</ul>
+</li>
+</ul>
+<p>	</p>
+<h4 id="3、Session-Window"><a href="#3、Session-Window" class="headerlink" title="3、Session Window"></a>3、Session Window</h4><p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/WechatIMG80.jpeg" alt="Watermark"></p>
+<ul>
+<li>根据 Session gap 切分不同的窗口</li>
+<li>当一个窗口在大于 Session gap 的时间内没有接收到新数据时，窗口关闭。</li>
+<li>Window Size 可变</li>
+<li>应用实例<ul>
+<li>统计用户的活跃程度和行为轨迹</li>
+</ul>
+</li>
+</ul>
+<h4 id="4、Global-Window"><a href="#4、Global-Window" class="headerlink" title="4、Global Window"></a>4、Global Window</h4><p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/WechatIMG81.jpeg" alt="Watermark"></p>
+<ul>
+<li>自定义窗口，用户指定 窗口的触发</li>
+</ul>
+<h3 id="Window-Trigger"><a href="#Window-Trigger" class="headerlink" title="Window Trigger"></a>Window Trigger</h3><h4 id="Window-Trigger类型"><a href="#Window-Trigger类型" class="headerlink" title="Window Trigger类型"></a>Window Trigger类型</h4><table>
+<thead>
+<tr>
+<th>Flink 内置 Window Trigger</th>
+<th>触发频率</th>
+<th>主要功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ProcessingTimeTrigger</td>
+<td>一次触发</td>
+<td>基于 ProcessingTime 触发，当机器时间大于窗口结束时间时触发</td>
+</tr>
+<tr>
+<td>EventTimeTrigger</td>
+<td>一次触发</td>
+<td>基于 EventTime，当 Watermark 大于窗口结束时间触发</td>
+</tr>
+<tr>
+<td>ContinuousProcessingTimeTrigger</td>
+<td>多次触发</td>
+<td>基于 ProcessTime 的固定时间间隔触发</td>
+</tr>
+<tr>
+<td>ContinuousEventTimeTrigger</td>
+<td>多次触发</td>
+<td>基于 EventTime 的固定时间间隔触发</td>
+</tr>
+<tr>
+<td>CountTrigger</td>
+<td>多次触发</td>
+<td>基于 Element 的固定条数触发</td>
+</tr>
+<tr>
+<td>DeltaTrigger</td>
+<td>多次触发</td>
+<td>基于本次 Element和上次触发 Trigger 的 Element 做Delta 计算，超过指定 Threshold 后触发</td>
+</tr>
+</tbody></table>
+<h4 id="EventTimeTrigger"><a href="#EventTimeTrigger" class="headerlink" title="EventTimeTrigger"></a>EventTimeTrigger</h4><p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/WechatIMG83.jpeg" alt="Watermark"></p>
+<p>设定  watermark 为2min，窗口为 5 min 的滚动窗口</p>
+<ol>
+<li>12:00 事件进入，12：00-12：05 的窗口创建</li>
+<li>12:04事件进入，更新watermark 到 12:02</li>
+<li>12:03事件进入</li>
+<li>12:08事件进入，更新watermark到12:06, 12：06 &gt; 12:05,所以 12：00-12：05 窗口被提交</li>
+</ol>
+<h4 id="ContinuousProcessingTimeTrigger"><a href="#ContinuousProcessingTimeTrigger" class="headerlink" title="ContinuousProcessingTimeTrigger"></a>ContinuousProcessingTimeTrigger</h4><p><img src="https://qilin-static.s3.cn-northwest-1.amazonaws.com.cn/sandog/WechatIMG84.jpeg" alt="Watermark"></p>
+<h4 id="Window-Trigger总结"><a href="#Window-Trigger总结" class="headerlink" title="Window Trigger总结"></a>Window Trigger总结</h4><ul>
+<li>通常情况下WindowAssigner 中已经默认包含相应的Window Trigger，且适用于大部分场景</li>
+<li>所有基于Event Time 时间的 WindowAssigner 默认Trigger 都是 EventTimeTrigger；</li>
+<li>GlobalWindow默认为 NeverTrigger，也就是不触发，因此使用 GlobalWindow 必须指CustomTrigger，否则窗口永远不触发；</li>
+<li>通过 WindowStream 提供的 trigger() 方法能够接受新的 Trigger 实现，但是会覆盖WindowAssigner 自带的默认 Triigger；</li>
+</ul>
 
             </div>
 
